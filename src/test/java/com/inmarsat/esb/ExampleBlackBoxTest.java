@@ -52,8 +52,5 @@ public class ExampleBlackBoxTest {
         // do something useful here...
     }
 
-    @Test
-    public void brokenTest() {
-        assertTrue(false);
-    }
+
 }
