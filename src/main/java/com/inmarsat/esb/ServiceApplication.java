@@ -18,6 +18,8 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class ServiceApplication { // NOSONAR
 
+    public int i;
+
     @PropertyInject("api.base.path")
     private String apiPath;
 
@@ -29,6 +31,8 @@ public class ServiceApplication { // NOSONAR
     ServletRegistrationBean servletRegistrationBean() {
         final ServletRegistrationBean servlet = new ServletRegistrationBean(new CamelHttpTransportServlet(), apiPath.endsWith("/") ? apiPath + "*" : apiPath + "/*");
         servlet.setName("CamelServlet");
+	String s;
+	System.out.println("Hello");
         return servlet;
     }
 }
