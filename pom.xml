@@ -270,7 +270,7 @@
              ~ Do Not Modify:
              ~ Required to copy custom s2i scripts for Dynatrace support
              -->
-            <plugin>
+            <!--<plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
                 <executions>
@@ -292,7 +292,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
 
             <!--
                ~ Do Not Modify:
