@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © 2018, Inmarsat Global Ltd.
+  ~ This file cannot be copied and/or distributed outside Inmarsat without the express permission given by
+  ~ Inmarsat Legal Affairs.  All permission requests should be requested via LegalCompliance@inmarsat.com.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+       
+	<bean id="jasypt" class="org.apache.camel.component.jasypt.JasyptPropertiesParser">
+		<property name="password" value="hamburgers" />
+	</bean>
+	
+	<camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring">
+        <propertyPlaceholder id="properties" propertiesParserRef="jasypt" location="classpath:app.properties,file:/etc/configmap/app.properties" ignoreMissingLocation="true"/>
+	</camelContext>
+
+</beans>

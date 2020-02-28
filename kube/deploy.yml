@@ -1,0 +1,156 @@
+---
+apiVersion: "v1"
+kind: "Template"
+labels: {}
+metadata:
+  annotations:
+    description: "Java Openshift Template for Deployments."
+    iconClass: "icon-java"
+  labels: {}
+  name: "${APP_NAME}-deploy-template"
+objects:
+- apiVersion: "v1"
+  kind: "DeploymentConfig"
+  metadata:
+    annotations: {}
+    labels:
+      app: "${APP_NAME}"
+    name: "${APP_NAME}"
+  spec:
+    replicas: 1
+    selector:
+      app: "${APP_NAME}"
+    strategy:
+      annotations: {}
+      labels: {}
+      resources:
+        limits: {}
+        requests: {}
+    template:
+      metadata:
+        annotations: {}
+        labels:
+          app: "${APP_NAME}"
+      spec:
+        containers:
+        - args: []
+          command: []
+          env:
+          #Dynatrace ENV Variables
+          - name: DT_NODE_ID
+            value: "${ENVIRONMENT}"
+          - name: DT_CLUSTER_ID
+            value: "${APP_NAME}"
+          - name: DT_TENANT
+            value: "${DYNATRACE_TENANT}"
+          - name: DT_API_TOKEN
+            value: "${DYNATRACE_API_TOKEN}"
+          - name: DT_ONEAGENT_PREFIX_DIR
+            value: /tmp
+          - name: DT_ONEAGENT_FOR
+            value: all
+          - name: DT_AGENT_BITNESS
+            value: "64"
+          #End Dynatrace ENV Variables
+          - name: "TZ"
+            value: "Etc/UTC"
+          - name: "ENVIRONMENT"
+            value: "${ENVIRONMENT}"
+          image: "${DOCKER_REG}/${SOURCE_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
+          name: "${APP_NAME}"
+          ports:
+          - containerPort: 8778
+            name: "jolokia"
+            protocol: "TCP"
+          readinessProbe:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "(curl -f 127.0.0.1:8778) >/dev/null 2>&1; test $? != 7"
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          resources:
+            limits:
+              memory: "300Mi"
+            requests: {}
+          volumeMounts:
+          - mountPath: "/etc/configmap"
+            name: "${APP_NAME}-configmap"
+            readOnly: true
+          - mountPath: "/etc/secret"
+            name: "${APP_NAME}-secret"
+            readOnly: true
+        imagePullSecrets: []
+        nodeSelector: {}
+        volumes:
+        - configMap:
+            items: []
+            name: "${APP_NAME}"
+          name: "${APP_NAME}-configmap"
+        - name: "${APP_NAME}-secret"
+          secret:
+            secretName: "${APP_NAME}"
+    triggers: []
+  status: {}
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    annotations: {}
+    labels:
+      app: "${APP_NAME}"
+    name: "${SERVICE_NAME}"
+  spec:
+    deprecatedPublicIPs: []
+    externalIPs: []
+    loadBalancerIP: ""
+    ports:
+    - name: "8080-tcp"
+      port: 8080
+      protocol: "TCP"
+      targetPort: 8080
+    selector:
+      app: "${APP_NAME}"
+    sessionAffinity: "None"
+    type: "ClusterIP"
+- apiVersion: "v1"
+  kind: "Route"
+  metadata:
+    annotations: {}
+    labels:
+      app: "${APP_NAME}"
+    name: "${APP_NAME}"
+  spec:
+    host: "${ROUTE_HOST}"
+    port:
+      targetPort: "8080-tcp"
+    tls:
+      termination: "edge"
+    to:
+      kind: "Service"
+      name: "${SERVICE_NAME}"
+parameters:
+- description: "The secret needed to trigger a build"
+  from: "[a-zA-Z0-9]{8}"
+  generate: "expression"
+  name: "BUILD_SECRET"
+- name: SOURCE_NAMESPACE
+  value: jenkins-builds
+- name: DOCKER_REG
+  value: 172.30.226.77:5000
+- name: APP_NAME
+  value:
+- name: ENVIRONMENT
+  value: 
+- name: IMAGE_NAME
+  value:
+- name: IMAGE_TAG
+  value: 
+- name: SERVICE_NAME
+  value: 
+- name: ROUTE_HOST
+  value:
+- name: DT_TENANT
+  value:
+- name: DT_API_TOKEN
+  value:

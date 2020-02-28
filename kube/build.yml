@@ -1,0 +1,66 @@
+---
+apiVersion: "v1"
+kind: "Template"
+labels: {}
+metadata:
+  annotations:
+    description: "Java Openshift Template for Builds."
+    iconClass: "icon-java"
+  labels: {}
+  name: "${APP_NAME}-build-template"
+objects:
+- apiVersion: "v1"
+  kind: "ImageStream"
+  metadata:
+    annotations: {}
+    labels:
+      app: "${APP_NAME}"
+    name: "${APP_NAME}"
+  spec:
+    tags: []
+  status:
+    dockerImageRepository: ""
+    tags: []
+- apiVersion: "v1"
+  kind: "BuildConfig"
+  metadata:
+    annotations: {}
+    labels:
+      app: "${APP_NAME}"
+    name: "${APP_NAME}"
+  spec:
+    output:
+      to:
+        kind: "ImageStreamTag"
+        name: "${APP_NAME}:latest"
+    resources:
+      limits: {}
+      requests: {}
+    source:
+      type: "Binary"
+    strategy:
+      sourceStrategy:
+        env:
+        - name: "BUILD_LOGLEVEL"
+          value: "5"
+        - name: "ARTIFACT_DIR"
+          value: ""
+        - name: "MAVEN_ARGS"
+          value: "package -DskipTests -e"
+        - name: "MAVEN_ARGS_APPEND"
+          value: ""
+        forcePull: true
+        from:
+          kind: "ImageStreamTag"
+          name: "fis-java-openshift:2.0"
+          namespace: "openshift"
+      type: "Source"
+  status:
+    lastVersion: 0
+parameters:
+- description: "The secret needed to trigger a build"
+  from: "[a-zA-Z0-9]{8}"
+  generate: "expression"
+  name: "BUILD_SECRET"
+- name: APP_NAME
+  value: 

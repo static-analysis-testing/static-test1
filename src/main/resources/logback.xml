@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © 2018, Inmarsat Global Ltd.
+  ~ This file cannot be copied and/or distributed outside Inmarsat without the express permission given by
+  ~ Inmarsat Legal Affairs.  All permission requests should be requested via LegalCompliance@inmarsat.com.
+  -->
+
+<configuration scan="true" scanPeriod="30 seconds" >
+
+    <!-- Optional Properties included from configmap (if exists) -->
+    <include optional="true" file="/etc/configmap/logback.xml"/>
+    
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="PERFORMANCELOG" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="performance" level="${performance.level:-INFO}" additivity="false">
+        <appender-ref ref="PERFORMANCELOG" />
+    </logger>
+
+    <root level="${root.level:-INFO}">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>

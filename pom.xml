@@ -1,0 +1,357 @@
+<!--
+  ~ Copyright © 2018, Inmarsat Global Ltd.
+  ~ This file cannot be copied and/or distributed outside Inmarsat without the express permission given by
+  ~ Inmarsat Legal Affairs.  All permission requests should be requested via LegalCompliance@inmarsat.com.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.inmarsat.esb.integration</groupId>
+    <artifactId>test-dave-experiment</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>ESB - Integration - test - dave experiment</name>
+    <description>Quick-start template for a Spring Boot Integration Service using Apache Camel</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Plugins -->
+        <jacoco-version>0.7.9</jacoco-version>
+        <maven-compiler-version>3.7.0</maven-compiler-version>
+        <maven-surefile-version>2.21.0</maven-surefile-version>
+        <!--
+           ~ Dependencies:
+           ~ Required to use Red Hat versions if they exist. Check maven central for these versions.
+           ~ Inmarsat's Nexus server will pull from Maven Central when necessary.
+           -->
+        <commons-connectors-version>1.0.0-SNAPSHOT</commons-connectors-version>
+        <commons-exceptions-version>1.0.0-SNAPSHOT</commons-exceptions-version>
+        <commons-transformers-version>1.0.0-SNAPSHOT</commons-transformers-version>
+        <camel-version>2.18.1.redhat-000024</camel-version>
+        <junit-version>4.12.0.redhat-003</junit-version>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.9.RELEASE</version>
+    </parent>
+
+    <!--
+       ~ Do Not Modify:
+       ~ Inmarsat's Nexus server is a caching repository for Maven plugins and dependencies.
+       ~ We are not allowed to use external repositories unless it is cached by Nexus. If you
+       ~ require a repository that is not already cached please open a Service Now request and
+       ~ assign it to the IICE team.
+       -->
+    <repositories>
+        <repository>
+            <id>inmarsat-nexus-public-group</id>
+            <name>Inmarsat Nexus Public Group Repository</name>
+            <url>http://172.31.48.40:8081/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!--
+       ~ Do Not Modify:
+       ~ Inmarsat's Nexus server is a caching repository for Maven plugins and dependencies.
+       ~ We are not allowed to use external repositories unless it is cached by Nexus. If you
+       ~ require a repository that is not already cached please open a Service Now request and
+       ~ assign it to the IICE team.
+       -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>inmarsat-nexus-public-group</id>
+            <name>Inmarsat Nexus Public Group Repository</name>
+            <url>http://172.31.48.40:8081/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!--
+       ~ Add your dependencies here. Please make an effort to minimize dependencies as much as possible
+       ~ and remove any dependencies that are not needed. This is an effort to minimize the memory footprint
+       ~ of the JVM in the running container. Dependency optimization contributes to metaspace optimization.
+       -->
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-servlet-starter</artifactId>
+            <version>${camel-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson-starter</artifactId>
+            <version>${camel-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-swagger-java-starter</artifactId>
+            <version>${camel-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring-boot-starter</artifactId>
+            <version>${camel-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-servlet</artifactId>
+            <version>${camel-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jasypt</artifactId>
+            <version>${camel-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.inmarsat.iice</groupId>
+            <artifactId>commons-connectors</artifactId>
+            <version>${commons-connectors-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.inmarsat.iice</groupId>
+            <artifactId>commons-exceptions</artifactId>
+            <version>${commons-exceptions-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.inmarsat.iice</groupId>
+            <artifactId>commons-transformers</artifactId>
+            <version>${commons-transformers-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--
+         ~ ExampleDatabaseSimulationTest: please remove these dependencies if not needed
+         -->
+        <dependency>
+            <groupId>org.zapodot</groupId>
+            <artifactId>embedded-db-junit</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.11</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+         ~ ExampleRestServiceSimulationTest: please remove these dependencies if not needed
+         -->
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>5.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-client-java</artifactId>
+            <version>5.3.0</version>
+        </dependency>
+
+        <!--
+         ~ ExampleQueueSimulationTest: please remove these dependencies if not needed
+         -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+            <version>5.15.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.15.6</version>
+        </dependency>
+
+        <!--
+         ~ ExampleFtpSimulationTest: please remove these dependencies if not needed
+         -->
+        <dependency>
+            <groupId>org.mockftpserver</groupId>
+            <artifactId>MockFtpServer</artifactId>
+            <version>2.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3.0.redhat-3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+         ~ ExampleSmtpSimulationTest: please remove these dependencies if not needed
+         -->
+        <dependency>
+            <groupId>org.subethamail</groupId>
+            <artifactId>subethasmtp</artifactId>
+            <version>3.1.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>simple-java-mail</artifactId>
+            <version>4.1.2</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <defaultGoal>spring-boot:run</defaultGoal>
+        <!--
+           ~ Add plugins here if you need to but please don't modify any of the required plugins.
+           -->
+        <plugins>
+            <!--
+               ~ Do Not Modify:
+               ~ Required to enforce the use of Java JDK 1.8
+               -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <!--
+               ~ Do Not Modify:
+               ~ Required by Spring Boot.
+               -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+             ~ Do Not Modify:
+             ~ Required to copy custom s2i scripts for Dynatrace support
+             -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <copy todir="${basedir}/target/.s2i/bin" overwrite="true" flatten="true">
+                                    <fileset dir="${basedir}/.s2i/bin" includes="*" >
+                                        <include name="assemble" />
+                                        <include name="run" />
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+               ~ Do Not Modify:
+               ~ Required for publication of test results in Jenkins.
+               -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefile-version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*KT.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <!--
+               ~ Do Not Modify:
+               ~ Required for publication of coverage results in Jenkins.
+               ~ Required Test Coverage: Minimums: Class 100%, Method 95%, Line 80%.
+               -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-version}</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>COMPLEXITY</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.60</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
