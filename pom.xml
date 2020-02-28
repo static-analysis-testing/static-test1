@@ -39,49 +39,6 @@
     </parent>
 
     <!--
-       ~ Do Not Modify:
-       ~ Inmarsat's Nexus server is a caching repository for Maven plugins and dependencies.
-       ~ We are not allowed to use external repositories unless it is cached by Nexus. If you
-       ~ require a repository that is not already cached please open a Service Now request and
-       ~ assign it to the IICE team.
-       -->
-    <repositories>
-        <repository>
-            <id>inmarsat-nexus-public-group</id>
-            <name>Inmarsat Nexus Public Group Repository</name>
-            <url>http://172.31.48.40:8081/content/groups/public/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <!--
-       ~ Do Not Modify:
-       ~ Inmarsat's Nexus server is a caching repository for Maven plugins and dependencies.
-       ~ We are not allowed to use external repositories unless it is cached by Nexus. If you
-       ~ require a repository that is not already cached please open a Service Now request and
-       ~ assign it to the IICE team.
-       -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>inmarsat-nexus-public-group</id>
-            <name>Inmarsat Nexus Public Group Repository</name>
-            <url>http://172.31.48.40:8081/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <!--
        ~ Add your dependencies here. Please make an effort to minimize dependencies as much as possible
        ~ and remove any dependencies that are not needed. This is an effort to minimize the memory footprint
        ~ of the JVM in the running container. Dependency optimization contributes to metaspace optimization.
