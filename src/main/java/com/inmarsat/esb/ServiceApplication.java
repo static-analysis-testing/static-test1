@@ -32,7 +32,7 @@ public class ServiceApplication { // NOSONAR
         final ServletRegistrationBean servlet = new ServletRegistrationBean(new CamelHttpTransportServlet(), apiPath.endsWith("/") ? apiPath + "*" : apiPath + "/*");
         servlet.setName("CamelServlet");
 	String s;
-	System.out.println("Hello World");
+	System.out.println("Hello World 2");
         return servlet;
     }
 }
