@@ -34,7 +34,6 @@ public class ServiceApplication { // NOSONAR
 	String s;
 	System.out.println("Hello World 2");
 
-        System.out.println("Hello team");
         return servlet;
     }
 }
