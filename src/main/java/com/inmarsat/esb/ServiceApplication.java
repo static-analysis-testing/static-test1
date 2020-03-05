@@ -33,6 +33,8 @@ public class ServiceApplication { // NOSONAR
         servlet.setName("CamelServlet");
 	String s;
 	System.out.println("Hello World 2");
+
+        System.out.println("Hello team");
         return servlet;
     }
 }
