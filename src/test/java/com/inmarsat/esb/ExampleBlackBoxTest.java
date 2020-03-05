@@ -22,6 +22,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -50,4 +51,6 @@ public class ExampleBlackBoxTest {
 
         // do something useful here...
     }
+
+
 }
