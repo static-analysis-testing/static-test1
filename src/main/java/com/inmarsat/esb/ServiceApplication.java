@@ -19,6 +19,7 @@ import org.springframework.context.annotation.ImportResource;
 public class ServiceApplication { // NOSONAR
 
     public int i;
+    public int j;
 
     @PropertyInject("api.base.path")
     private String apiPath;
@@ -32,7 +33,8 @@ public class ServiceApplication { // NOSONAR
         final ServletRegistrationBean servlet = new ServletRegistrationBean(new CamelHttpTransportServlet(), apiPath.endsWith("/") ? apiPath + "*" : apiPath + "/*");
         servlet.setName("CamelServlet");
 	String s;
-	System.out.println("Hello World");
+	System.out.println("Hello World 2");
+
         return servlet;
     }
 }
