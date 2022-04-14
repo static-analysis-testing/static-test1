@@ -19,6 +19,7 @@ import org.springframework.context.annotation.ImportResource;
 public class ServiceApplication { // NOSONAR
 
     public int i;
+    public int j;
 
     @PropertyInject("api.base.path")
     private String apiPath;
